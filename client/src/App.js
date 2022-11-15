@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Single from "./pages/Single";
 import Write from "./pages/Write";
+import './style.scss'
 
 const router = createBrowserRouter([
   {
