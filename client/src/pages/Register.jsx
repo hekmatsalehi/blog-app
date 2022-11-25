@@ -11,7 +11,7 @@ function Register() {
         <input required type='password' placeholder='password'/>
         <p>This is an error</p>
         <button>Login</button>
-        <span>Do you have an account? <Link to="/login">Sign in</Link></span>
+        <span>Do you have an account? <Link className='link' to="/login">Sign in</Link></span>
       </form>
     </div>
   )
