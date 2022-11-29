@@ -115,5 +115,17 @@ $purple: #8d00a0;
                 }
             }
         }
+
+        //Footer
+        footer {
+            margin-top: 100px;
+            background-color: $lightPurple;
+            padding: 20px;
+
+            .footer-text {
+                font-size: 12px;
+                text-align: center;
+            }
+        }
     }
 }
