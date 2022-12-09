@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <div className='navbar'>
       <div className='container'>
-        <div className='logo'>Sky Blog</div>
+        <Link className='logo link' to='/'>Sky Blog</Link>
         <div className='links'>
           <Link className='link' to='/?cat=art'>
             <h6>ART</h6>
