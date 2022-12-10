@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import Menu from "../components/Menu";
 
 function Single() {
   return (
@@ -64,7 +65,7 @@ function Single() {
           minima beatae quos, recusandae ea ipsum dolorum cupiditate odio et.
         </p>
       </div>
-      <div className="menu">m</div>
+      <Menu/>
     </div>
   );
 }
