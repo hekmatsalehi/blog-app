@@ -18,6 +18,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      if(!inputs.username || !inputs.email || !inputs.password) return;
       setError(null)
       await axios.post('/auth/register', inputs)
       navigate('/login')
