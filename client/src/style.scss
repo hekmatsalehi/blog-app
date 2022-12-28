@@ -91,6 +91,24 @@ $purple: #8d00a0;
                     span {
                         cursor: pointer;
                     }
+                    
+                    .username {
+                        margin-left: 20px;
+                        color: $purple;
+                        font-weight: 500;    
+                    }
+
+                    .username::first-letter {
+                        text-transform: uppercase;
+                    }
+
+                    .login-logout {
+                        &:hover {
+                            transform: scale(1.1);
+                            transition: transform 0.2s ease-out;
+                        }
+                    }
+                      
 
                     .write {
                         background-color: $lightPurple;
