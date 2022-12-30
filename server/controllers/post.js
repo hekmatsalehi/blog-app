@@ -13,7 +13,12 @@ export const getPosts = (req, res) => {
 }
 
 export const getSinglePost = (req, res) => {
-    res.json('Hello from add post')        
+    const q = "SELECT `username`, `title`, `desc`, p.img, u.img as userImg, `cat`, `date`, `userId` FROM users u JOIN posts p ON u.id = p.userId WHERE p.id = ?"
+    
+    db.query(q, [req.params.id], (err, data) => {
+        if(err) return res.json(err);
+        return res.status(200).json(data[0])
+    })
 }
 
 export const addPost = (req, res) => {
