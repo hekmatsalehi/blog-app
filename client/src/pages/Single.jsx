@@ -45,7 +45,7 @@ function Single() {
             <span>{post.username}</span>
             <p>Posted 3 days ago</p>
           </div>
-          {post.userId === currentUser?.id && <div className="edit">
+          {post.username === currentUser?.username && <div className="edit">
             <Link className="link" to={`/write?edit=2`}>
               <span className="edit-icon">
                 <AiFillEdit />
