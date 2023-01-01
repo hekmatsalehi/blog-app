@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
@@ -13,6 +13,8 @@ function Single() {
   const postId = useLocation().pathname.split('/')[2]
   const { currentUser } = useContext(AuthContext);
   
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +28,15 @@ function Single() {
     fetchData()
   }, [postId])
 
-  
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/posts/${postId}`)
+      navigate('/')
+    } catch(error) {
+      console.log(error)
+    } 
+  }
+
   return (
     <div className="single">
       <div className="content">
@@ -52,7 +62,7 @@ function Single() {
               </span>
             </Link>
             <span className="delete-icon">
-              <MdDelete />
+              <MdDelete onClick={handleDelete}/>
             </span>
           </div>}
         </div>
@@ -61,7 +71,7 @@ function Single() {
           {post.desc}
         </p>
       </div>
-      <Menu/>
+      <Menu cat={post.cat}/>
     </div>
   );
 }
