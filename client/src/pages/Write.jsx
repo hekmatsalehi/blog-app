@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import moment from 'moment'
 function Write() {
-  const [value, setValue] = useState('');
-  const [title, setTitle] = useState('');
+  const state = useLocation().state;
+
+  const [value, setValue] = useState(state?.desc || '');
+  const [title, setTitle] = useState(state?.title || '');
   const [file, setFile] = useState(null);
-  const [category, setCategory] = useState('')
+  const [cat, setCat] = useState(state?.cat || '')
+
+  const navigate = useNavigate()
 
   const upload = async () => {
     try {
@@ -22,18 +27,43 @@ function Write() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const imgUrl = upload()
+    const imgUrl = await upload()
     try {
+      state ? await axios.put(`/posts/${state.id}`, {
+        title,
+        desc: value,
+        cat,
+        img: file ? imgUrl : ''  
+      })
+      : await axios.post('/posts', {
+        title,
+        desc: value,
+        cat,
+        img: file ? imgUrl : '',
+        date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')  
+      })
+
+      navigate('/')
 
     } catch (error) {
       console.log(error)
     }
   }
 
+  const handleCheckboxChange = (e) => {
+    setCat(e.target.value)
+  }
+
+  useEffect(() => {
+    setValue(state?.desc || "");
+    setTitle(state?.title || "");
+    setCat(state?.cat || "");
+  }, [state]);
+
   return (
     <div className='add-post'>
       <div className="content">
-        <input type='text' placeholder='title' onChange={e => setTitle(e.target.value)}/>
+        <input type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)}/>
         <div className="editor-container">
           <ReactQuill className='editor' theme="snow" value={value} onChange={setValue} />
         </div>
@@ -57,27 +87,27 @@ function Write() {
         <div className="item">
           <h1>Category</h1>
           <div className="cat">
-            <input type='radio' name='cat' value='art' id='art' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'art'} name='cat' value='art' id='art' onChange={handleCheckboxChange}/>
             <label htmlFor='art'>Art</label>
           </div>
           <div className="cat">
-            <input type='radio' name='cat' value='science' id='science' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'science'} name='cat' value='science' id='science' onChange={handleCheckboxChange}/>
             <label htmlFor='science'>Science</label>
           </div>
           <div className="cat">
-            <input type='radio' name='cat' value='technology' id='technology' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'technology'} name='cat' value='technology' id='technology' onChange={handleCheckboxChange}/>
             <label htmlFor='technology'>Technology</label>
           </div>
           <div className="cat">
-            <input type='radio' name='cat' value='cinema' id='cinema' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'cinema'} name='cat' value='cinema' id='cinema' onChange={handleCheckboxChange}/>
             <label htmlFor='cinema'>Cinema</label>
           </div>
           <div className="cat">
-            <input type='radio' name='cat' value='design' id='design' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'design'} name='cat' value='design' id='design' onChange={handleCheckboxChange}/>
             <label htmlFor='design'>Design</label>
           </div>
           <div className="cat">
-            <input type='radio' name='cat' value='food' id='food' onChange={e => setCategory(e.target.value)}/>
+            <input type='radio' checked={cat === 'food'} name='cat' value='food' id='food' onChange={handleCheckboxChange}/>
             <label htmlFor='food'>Food</label>
           </div>
         </div>

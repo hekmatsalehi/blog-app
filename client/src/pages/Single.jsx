@@ -7,6 +7,8 @@ import Menu from "../components/Menu";
 import axios from 'axios';
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext.js"
+import moment from "moment";
+
 function Single() {
   const [post, setPost] = useState({})
 
@@ -37,11 +39,16 @@ function Single() {
     } 
   }
 
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html')
+    return doc.body.textContent;
+  }
+
   return (
     <div className="single">
       <div className="content">
         <img
-          src={post?.img}
+          src={`../upload/${post?.img}`}
           alt=""
         />
         <div className="user">
@@ -53,10 +60,10 @@ function Single() {
           </div>
           <div className="info">
             <span>{post.username}</span>
-            <p>Posted 3 days ago</p>
+            <p>Posted {moment(post.date).fromNow()}</p>
           </div>
           {post.username === currentUser?.username && <div className="edit">
-            <Link className="link" to={`/write?edit=2`}>
+            <Link className="link" to={`/write?edit=2`} state={post}>
               <span className="edit-icon">
                 <AiFillEdit />
               </span>
@@ -68,7 +75,7 @@ function Single() {
         </div>
         <h1>{post.title}</h1>
         <p className='post-details'>
-          {post.desc}
+          {getText(post.desc)}
         </p>
       </div>
       <Menu cat={post.cat}/>
